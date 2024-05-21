@@ -11,15 +11,63 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ProductController = void 0;
 const product_service_1 = require("./product.service");
+// creating product
 const createProduct = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const productData = req.body;
-    const result = yield product_service_1.ProductService.createProduct(productData);
-    res.json({
-        success: true,
-        message: "Product created successfully!",
-        data: result,
-    });
+    try {
+        const productData = req.body;
+        const result = yield product_service_1.ProductService.createProductIntoDB(productData);
+        res.status(200).json({
+            success: true,
+            message: "Product created successfully!",
+            data: result,
+        });
+    }
+    catch (error) {
+        res.status(500).json({
+            success: false,
+            message: "failed to create product successfully",
+            error,
+        });
+    }
+});
+// getting all product
+const getAllProduct = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const result = yield product_service_1.ProductService.getAllProductFromDB();
+        res.status(200).json({
+            success: true,
+            message: "Products fetched successfully!",
+            data: result,
+        });
+    }
+    catch (error) {
+        res.status(500).json({
+            success: false,
+            message: "failed to find all product",
+            error,
+        });
+    }
+});
+const getSingleProduct = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const { productId } = req.params;
+        const result = yield product_service_1.ProductService.getSingleProductFromDB(productId);
+        res.status(200).json({
+            success: true,
+            message: "Product fetched successfully!",
+            data: result,
+        });
+    }
+    catch (error) {
+        res.status(500).json({
+            success: false,
+            message: "failed to find all product",
+            error,
+        });
+    }
 });
 exports.ProductController = {
     createProduct,
+    getAllProduct,
+    getSingleProduct
 };
