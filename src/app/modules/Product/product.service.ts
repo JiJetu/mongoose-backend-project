@@ -9,6 +9,7 @@ const createProductIntoDB = async (payload: TProduct) => {
   return result;
 };
 
+
 // getting product all data and search data from database
 const getAllProductFromDB = async () => {
   const result = await Product.find();

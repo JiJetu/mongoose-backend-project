@@ -1,12 +1,17 @@
 import { Request, Response } from "express";
 import { ProductService } from "./product.service";
+import productValidationSchema from "./product.validation";
 
 // creating product
 const createProduct = async (req: Request, res: Response) => {
   try {
     const productData = req.body;
 
-    const result = await ProductService.createProductIntoDB(productData);
+    // data validation using zod
+    const zodProductParsedData = productValidationSchema.parse(productData);
+
+    const result =
+      await ProductService.createProductIntoDB(zodProductParsedData);
 
     res.status(200).json({
       success: true,
@@ -33,25 +38,20 @@ const getAllProduct = async (req: Request, res: Response) => {
       const searchProduct = results.filter(
         (result) =>
           result.name.split(" ")[0].toLocaleLowerCase() ===
-          query.toLocaleLowerCase() //if query is true then we find the query field data according to our database data's name field. it will help us to get all the searching product which name start with searching field name  
-      );
-      
+          query.toLocaleLowerCase()
+      ); //getting all query search product data which are matched to the name of the product
+
+      // sending success message for getting search query product
       if (searchProduct) {
         return res.status(200).json({
           success: true,
-          message:
-            "Products matching search term 'iphone' fetched successfully!",
+          message: `Products matching search term ${query} fetched successfully!`,
           data: searchProduct,
         });
       }
-
-      return res.json({
-        success: false,
-        message: "failed to fetched products matching search term 'iphone'",
-        data: searchProduct,
-      });
     }
 
+    // sending success message for getting all product
     res.status(200).json({
       success: true,
       message: "Products fetched successfully!",

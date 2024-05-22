@@ -8,14 +8,20 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ProductController = void 0;
 const product_service_1 = require("./product.service");
+const product_validation_1 = __importDefault(require("./product.validation"));
 // creating product
 const createProduct = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const productData = req.body;
-        const result = yield product_service_1.ProductService.createProductIntoDB(productData);
+        // data validation using zod
+        const zodProductParsedData = product_validation_1.default.parse(productData);
+        const result = yield product_service_1.ProductService.createProductIntoDB(zodProductParsedData);
         res.status(200).json({
             success: true,
             message: "Product created successfully!",
@@ -39,21 +45,17 @@ const getAllProduct = (req, res) => __awaiter(void 0, void 0, void 0, function* 
         // finding all searching or query data
         if (query) {
             const searchProduct = results.filter((result) => result.name.split(" ")[0].toLocaleLowerCase() ===
-                query.toLocaleLowerCase() //if query is true then we find the query field data according to our database data's name field. it will help us to get all the searching product which name start with searching field name  
-            );
+                query.toLocaleLowerCase()); //getting all query search product data which are matched to the name of the product
+            // sending success message for getting search query product
             if (searchProduct) {
                 return res.status(200).json({
                     success: true,
-                    message: "Products matching search term 'iphone' fetched successfully!",
+                    message: `Products matching search term ${query} fetched successfully!`,
                     data: searchProduct,
                 });
             }
-            return res.json({
-                success: false,
-                message: "failed to fetched products matching search term 'iphone'",
-                data: searchProduct,
-            });
         }
+        // sending success message for getting all product
         res.status(200).json({
             success: true,
             message: "Products fetched successfully!",
