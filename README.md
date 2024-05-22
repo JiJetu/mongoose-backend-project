@@ -1,18 +1,44 @@
-## Running mongoose-backend-project Locally
+# Mongoose Backend Project
 
-This guide gets you started with running the `mongoose-backend-project` on your machine for development.
+Welcome to the Mongoose Backend Project! This repository contains code for a backend application using Mongoose, Express, and TypeScript.
 
-**Before you begin:**
+## Installation
 
-1. **Install Node.js and npm (or yarn):** You'll need Node.js to run the application. Download and install it from the official website: https://nodejs.org/en/
-   - npm (Node Package Manager) comes bundled with Node.js. Alternatively, you can use yarn as a package manager.
-2. **Set up MongoDB:** This project uses MongoDB as a database. Download and install a local MongoDB instance following the official guide: https://www.mongodb.com/try/download/community
-
-**Steps to Run the Application:**
-
-1. **Clone or download the project.**
-2. **Open your terminal and navigate to the project directory.**
-3. **Install dependencies:** Run the following command to install all the required packages:
+1. Clone this repository:
 
    ```bash
-   npm install  # or yarn install
+   git clone https://github.com/your-username/mongoose-backend-project.git
+   cd mongoose-backend-project
+
+   ```
+
+2. Install the necessary dependencies:
+
+```bash
+npm install
+
+```
+
+3. Create a .env file in the root directory with the following content:
+
+```bash
+PORT=3000
+MONGODB_URI=mongodb://localhost:27017/mydb
+```
+
+##Usage
+To run the project locally, execute the following command:
+
+```bash
+npm start
+
+```
+
+This will start the server on port 3000. You can access the API at http://localhost:3000.
+
+Scripts
+
+- npm run build: Compile TypeScript files to JavaScript in the dist folder.
+- npm run start:dev: Run the server in development mode with automatic restart using ts-node-dev.
+- npm run lint: Lint the code using ESLint.
+- npm run prettier: Format code using Prettier.
