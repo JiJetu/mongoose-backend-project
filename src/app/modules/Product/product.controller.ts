@@ -73,10 +73,30 @@ const updateProduct = async (req: Request, res: Response) => {
       { new: true }
     );
 
-
     res.status(200).json({
       success: true,
       message: "Product updated successfully!",
+      data: result,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "failed to find all product",
+      error,
+    });
+  }
+};
+
+// delete a product by id
+const deleteProduct = async (req: Request, res: Response) => {
+  try {
+    const { productId } = req.params;
+
+    const result = await ProductService.deleteProductFromDB(productId);
+
+    res.status(200).json({
+      success: true,
+      message: "Product deleted successfully!",
       data: result,
     });
   } catch (error) {
@@ -93,4 +113,5 @@ export const ProductController = {
   getAllProduct,
   getSingleProduct,
   updateProduct,
+  deleteProduct,
 };
