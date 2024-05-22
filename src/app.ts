@@ -14,6 +14,7 @@ app.use("/api/products", ProductRoutes);
 // for order api endPoints
 app.use("/api/orders", OrderRouter);
 
+// other route will hit here
 app.use((req: Request, res: Response) => {
   res.json({
     success: false,

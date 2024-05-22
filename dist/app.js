@@ -15,6 +15,7 @@ app.use((0, cors_1.default)());
 app.use("/api/products", product_route_1.ProductRoutes);
 // for order api endPoints
 app.use("/api/orders", order_route_1.OrderRouter);
+// other route will hit here
 app.use((req, res) => {
     res.json({
         success: false,
