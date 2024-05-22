@@ -28,7 +28,7 @@ const getAllProduct = async (req: Request, res: Response) => {
     const query = req.query?.searchTerm as string | undefined;
     const results = await ProductService.getAllProductFromDB();
 
-    // finding all query data
+    // finding all searching or query data
     if (query) {
       const searchProduct = results.filter(
         (result) =>

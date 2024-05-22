@@ -11,25 +11,35 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ProductService = void 0;
 const prodeuct_model_1 = require("./prodeuct.model");
+// creating product data into database
 const createProductIntoDB = (payload) => __awaiter(void 0, void 0, void 0, function* () {
     const result = yield prodeuct_model_1.Product.create(payload);
     return result;
 });
+// getting product all data and search data from database
 const getAllProductFromDB = () => __awaiter(void 0, void 0, void 0, function* () {
     const result = yield prodeuct_model_1.Product.find();
     return result;
 });
+// get a single product data from database
 const getSingleProductFromDB = (id) => __awaiter(void 0, void 0, void 0, function* () {
     const result = yield prodeuct_model_1.Product.findOne({ _id: id });
     return result;
 });
+// updating product data into database
 const updateProductIntoDB = (id, payload, condition) => __awaiter(void 0, void 0, void 0, function* () {
     const result = yield prodeuct_model_1.Product.findOneAndUpdate({ _id: id }, payload, condition);
+    return result;
+});
+// deleting product a data from database
+const deleteProductFromDB = (id) => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield prodeuct_model_1.Product.findOneAndDelete({ _id: id });
     return result;
 });
 exports.ProductService = {
     createProductIntoDB,
     getAllProductFromDB,
     getSingleProductFromDB,
-    updateProductIntoDB
+    updateProductIntoDB,
+    deleteProductFromDB,
 };

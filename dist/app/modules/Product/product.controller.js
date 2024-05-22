@@ -32,12 +32,32 @@ const createProduct = (req, res) => __awaiter(void 0, void 0, void 0, function* 
 });
 // getting all product at a time
 const getAllProduct = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    var _a;
     try {
-        const result = yield product_service_1.ProductService.getAllProductFromDB();
+        const query = (_a = req.query) === null || _a === void 0 ? void 0 : _a.searchTerm;
+        const results = yield product_service_1.ProductService.getAllProductFromDB();
+        // finding all searching or query data
+        if (query) {
+            const searchProduct = results.filter((result) => result.name.split(" ")[0].toLocaleLowerCase() ===
+                query.toLocaleLowerCase() //if query is true then we find the query field data according to our database data's name field. it will help us to get all the searching product which name start with searching field name  
+            );
+            if (searchProduct) {
+                return res.status(200).json({
+                    success: true,
+                    message: "Products matching search term 'iphone' fetched successfully!",
+                    data: searchProduct,
+                });
+            }
+            return res.json({
+                success: false,
+                message: "failed to fetched products matching search term 'iphone'",
+                data: searchProduct,
+            });
+        }
         res.status(200).json({
             success: true,
             message: "Products fetched successfully!",
-            data: result,
+            data: results,
         });
     }
     catch (error) {
@@ -62,7 +82,7 @@ const getSingleProduct = (req, res) => __awaiter(void 0, void 0, void 0, functio
     catch (error) {
         res.status(500).json({
             success: false,
-            message: "failed to find all product",
+            message: "failed to find a single product",
             error,
         });
     }
@@ -82,7 +102,26 @@ const updateProduct = (req, res) => __awaiter(void 0, void 0, void 0, function* 
     catch (error) {
         res.status(500).json({
             success: false,
-            message: "failed to find all product",
+            message: "failed to updating product",
+            error,
+        });
+    }
+});
+// delete a product by id
+const deleteProduct = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const { productId } = req.params;
+        const result = yield product_service_1.ProductService.deleteProductFromDB(productId);
+        res.status(200).json({
+            success: true,
+            message: "Product deleted successfully!",
+            data: result,
+        });
+    }
+    catch (error) {
+        res.status(500).json({
+            success: false,
+            message: "failed to deleting product",
             error,
         });
     }
@@ -92,4 +131,5 @@ exports.ProductController = {
     getAllProduct,
     getSingleProduct,
     updateProduct,
+    deleteProduct,
 };

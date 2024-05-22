@@ -22,10 +22,22 @@ const creatingOrder = async (req: Request, res: Response) => {
   }
 };
 
-// getting all oder
+// getting all oder or all require field oder data
 const getAllOrder = async (req: Request, res: Response) => {
   try {
-    const result = await OrderServices.getAllOrderFromDB();
+    const {email} = req.query;
+
+    if (email) {
+      const result = await OrderServices.getAllOrderFromDB(email as string);
+
+      return res.status(200).json({
+        success: true,
+        message: "Orders fetched successfully for user email!",
+        data: result,
+      });
+    }
+
+    const result = await OrderServices.getAllOrderFromDB(undefined);
 
     res.status(200).json({
       success: true,
@@ -43,5 +55,5 @@ const getAllOrder = async (req: Request, res: Response) => {
 
 export const OrderController = {
   creatingOrder,
-  getAllOrder
+  getAllOrder,
 };
