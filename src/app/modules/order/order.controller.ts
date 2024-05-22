@@ -17,7 +17,7 @@ const creatingOrder = async (req: Request, res: Response) => {
       message: "Order created successfully!",
       data: result,
     });
-  } catch (error: any) {
+  } catch (error: any ) {
     if(error.message === "Insufficient quantity available in inventory"){
       res.status(500).json({
         success: false,

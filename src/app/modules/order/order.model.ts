@@ -1,7 +1,6 @@
 import { Schema, model } from "mongoose";
 import { TOrder } from "./order.interface";
 import { Product } from "../Product/prodeuct.model";
-import { TProduct } from "../Product/product.interface";
 
 const orderSchema = new Schema<TOrder>({
   email: { type: String, required: true },
@@ -27,6 +26,7 @@ orderSchema.pre("save", async function (next) {
       product.inventory.inStock = false;
     }
 
+    await product.save();
     next();
   }
 });
@@ -37,6 +37,7 @@ orderSchema.post("save", async function (order: TOrder, next) {
   if (product) {
     // reduce the inventory quantity into product
     product.inventory.quantity -= order.quantity;
+    await product.save();
   }
   next();
 });

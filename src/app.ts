@@ -14,6 +14,13 @@ app.use("/api/products", ProductRoutes);
 // for order api endPoints
 app.use("/api/orders", OrderRouter);
 
+app.use((req: Request, res: Response) => {
+  res.json({
+    success: false,
+    message: "Route not found",
+  });
+});
+
 app.get("/", (req: Request, res: Response) => {
   res.send("Hello World!");
 });
