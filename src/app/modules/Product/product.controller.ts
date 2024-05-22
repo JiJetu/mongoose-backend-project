@@ -28,11 +28,12 @@ const getAllProduct = async (req: Request, res: Response) => {
     const query = req.query?.searchTerm as string | undefined;
     const results = await ProductService.getAllProductFromDB();
 
+    // finding all query data
     if (query) {
       const searchProduct = results.filter(
         (result) =>
           result.name.split(" ")[0].toLocaleLowerCase() ===
-          query.toLocaleLowerCase()
+          query.toLocaleLowerCase() //if query is true then we find the query field data according to our database data's name field. it will help us to get all the searching product which name start with searching field name  
       );
       
       if (searchProduct) {
@@ -79,7 +80,7 @@ const getSingleProduct = async (req: Request, res: Response) => {
   } catch (error) {
     res.status(500).json({
       success: false,
-      message: "failed to find all product",
+      message: "failed to find a single product",
       error,
     });
   }
@@ -105,7 +106,7 @@ const updateProduct = async (req: Request, res: Response) => {
   } catch (error) {
     res.status(500).json({
       success: false,
-      message: "failed to find all product",
+      message: "failed to updating product",
       error,
     });
   }
@@ -126,7 +127,7 @@ const deleteProduct = async (req: Request, res: Response) => {
   } catch (error) {
     res.status(500).json({
       success: false,
-      message: "failed to find all product",
+      message: "failed to deleting product",
       error,
     });
   }
