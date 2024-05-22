@@ -26,20 +26,35 @@ const createProduct = async (req: Request, res: Response) => {
 const getAllProduct = async (req: Request, res: Response) => {
   try {
     const query = req.query?.searchTerm as string | undefined;
-    const result = await ProductService.getAllProductFromDB(query);
+    const results = await ProductService.getAllProductFromDB();
 
     if (query) {
-      return res.status(200).json({
-        success: true,
-        message: "Products matching search term 'iphone' fetched successfully!",
-        data: result,
+      const searchProduct = results.filter(
+        (result) =>
+          result.name.split(" ")[0].toLocaleLowerCase() ===
+          query.toLocaleLowerCase()
+      );
+      
+      if (searchProduct) {
+        return res.status(200).json({
+          success: true,
+          message:
+            "Products matching search term 'iphone' fetched successfully!",
+          data: searchProduct,
+        });
+      }
+
+      return res.json({
+        success: false,
+        message: "failed to fetched products matching search term 'iphone'",
+        data: searchProduct,
       });
     }
 
     res.status(200).json({
       success: true,
       message: "Products fetched successfully!",
-      data: result,
+      data: results,
     });
   } catch (error) {
     res.status(500).json({

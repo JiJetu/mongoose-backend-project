@@ -9,17 +9,11 @@ const createProductIntoDB = async (payload: TProduct) => {
   return result;
 };
 
-// getting all data from database
-const getAllProductFromDB = async (payload: string | undefined) => {
-  if (payload) {
-    const searchResult = await Product.find({ searchTerm: payload });
-    // const searchResult = await Product.find({ name: new RegExp(payload, 'i') });
-    return searchResult;
-  } else {
-    const result = await Product.find();
+// getting all data and search data from database
+const getAllProductFromDB = async () => {
+  const result = await Product.find();
 
     return result;
-  }
 };
 
 // get a single data from database
