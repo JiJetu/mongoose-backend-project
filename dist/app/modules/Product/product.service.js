@@ -23,8 +23,13 @@ const getSingleProductFromDB = (id) => __awaiter(void 0, void 0, void 0, functio
     const result = yield prodeuct_model_1.Product.findOne({ _id: id });
     return result;
 });
+const updateProductIntoDB = (id, payload, condition) => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield prodeuct_model_1.Product.findOneAndUpdate({ _id: id }, payload, condition);
+    return result;
+});
 exports.ProductService = {
     createProductIntoDB,
     getAllProductFromDB,
-    getSingleProductFromDB
+    getSingleProductFromDB,
+    updateProductIntoDB
 };

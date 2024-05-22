@@ -30,7 +30,7 @@ const createProduct = (req, res) => __awaiter(void 0, void 0, void 0, function* 
         });
     }
 });
-// getting all product
+// getting all product at a time
 const getAllProduct = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const result = yield product_service_1.ProductService.getAllProductFromDB();
@@ -48,6 +48,7 @@ const getAllProduct = (req, res) => __awaiter(void 0, void 0, void 0, function* 
         });
     }
 });
+// getting a single product by id
 const getSingleProduct = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { productId } = req.params;
@@ -66,8 +67,29 @@ const getSingleProduct = (req, res) => __awaiter(void 0, void 0, void 0, functio
         });
     }
 });
+// updating product by id and update info
+const updateProduct = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const { productId } = req.params;
+        const updateData = req.body;
+        const result = yield product_service_1.ProductService.updateProductIntoDB(productId, updateData, { new: true });
+        res.status(200).json({
+            success: true,
+            message: "Product updated successfully!",
+            data: result,
+        });
+    }
+    catch (error) {
+        res.status(500).json({
+            success: false,
+            message: "failed to find all product",
+            error,
+        });
+    }
+});
 exports.ProductController = {
     createProduct,
     getAllProduct,
-    getSingleProduct
+    getSingleProduct,
+    updateProduct,
 };

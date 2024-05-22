@@ -1,3 +1,4 @@
+import { QueryOptions } from "mongoose";
 import { Product } from "./prodeuct.model";
 import { TProduct } from "./product.interface";
 
@@ -12,12 +13,18 @@ const getAllProductFromDB = async () => {
 };
 
 const getSingleProductFromDB = async (id: string) => {
-  const result = await Product.findOne({_id : id});
+  const result = await Product.findOne({ _id: id });
+  return result;
+};
+
+const updateProductIntoDB = async (id: string, payload: TProduct, condition: QueryOptions) => {
+  const result = await Product.findOneAndUpdate({ _id: id }, payload, condition);
   return result;
 };
 
 export const ProductService = {
   createProductIntoDB,
   getAllProductFromDB,
-  getSingleProductFromDB
+  getSingleProductFromDB,
+  updateProductIntoDB
 };
