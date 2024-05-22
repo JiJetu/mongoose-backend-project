@@ -25,7 +25,16 @@ const createProduct = async (req: Request, res: Response) => {
 // getting all product at a time
 const getAllProduct = async (req: Request, res: Response) => {
   try {
-    const result = await ProductService.getAllProductFromDB();
+    const query = req.query?.searchTerm as string | undefined;
+    const result = await ProductService.getAllProductFromDB(query);
+
+    if (query) {
+      return res.status(200).json({
+        success: true,
+        message: "Products matching search term 'iphone' fetched successfully!",
+        data: result,
+      });
+    }
 
     res.status(200).json({
       success: true,

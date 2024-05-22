@@ -10,10 +10,16 @@ const createProductIntoDB = async (payload: TProduct) => {
 };
 
 // getting all data from database
-const getAllProductFromDB = async () => {
-  const result = await Product.find();
+const getAllProductFromDB = async (payload: string | undefined) => {
+  if (payload) {
+    const searchResult = await Product.find({ searchTerm: payload });
+    // const searchResult = await Product.find({ name: new RegExp(payload, 'i') });
+    return searchResult;
+  } else {
+    const result = await Product.find();
 
-  return result;
+    return result;
+  }
 };
 
 // get a single data from database
@@ -44,7 +50,6 @@ const deleteProductFromDB = async (id: string) => {
 
   return result;
 };
-
 
 export const ProductService = {
   createProductIntoDB,
